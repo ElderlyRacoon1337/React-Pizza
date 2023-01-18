@@ -109,6 +109,8 @@ body {
 }
 
 .cart {
+  margin: 0 auto;
+  max-width: 1000px;
   &__top {
     display: flex;
     justify-content: space-between;
@@ -131,6 +133,11 @@ body {
         stroke-width: 1.9;
       }
     }
+  }
+
+  .content__items {
+    display: flex;
+    flex-direction: column;
   }
 
   &__clear {
