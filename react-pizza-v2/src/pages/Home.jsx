@@ -6,26 +6,30 @@ import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import Pagination from "../components/Pagination";
 import { useContext } from "react";
 import { SearchContext } from "../App";
+import { useSelector, useDispatch } from "react-redux";
+import { setCategoryId } from "../redux/slices/filterSlice";
 
 const Home = () => {
+  const { categoryId, sort } = useSelector((state) => state.filter);
+
   const { searchValue } = useContext(SearchContext);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [categoryId, setCategoryId] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortType, setSortType] = useState({
-    name: "популярности",
-    sortProperty: "rating",
-  });
+
+  const dispatch = useDispatch();
+
+  const onChangeCategory = (id) => {
+    dispatch(setCategoryId(id));
+  };
 
   useEffect(() => {
     setIsLoading(true);
 
-    const sortBy = sortType.sortProperty.replace("-", "");
-    const order = sortType.sortProperty.includes("-") ? "asc" : "desc";
+    const sortBy = sort.sortProperty.replace("-", "");
+    const order = sort.sortProperty.includes("-") ? "asc" : "desc";
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
-
     fetch(
       `https://63c5429af80fabd877e42b14.mockapi.io/items?page=${currentPage}&limit=8&${category}&sortBy=${sortBy}&order=${order}${search}`
     )
@@ -35,12 +39,14 @@ const Home = () => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
-  const skeletons = [...new Array(6)].map((_, index) => <Skeleton />);
+  const skeletons = [...new Array(6)].map((_, index) => (
+    <Skeleton key={index} />
+  ));
 
   const pizzas = items
-    .filter((obj) => obj.name.toLowerCase().includes(searchValue.toLowerCase()))
+    // .filter((obj) => obj.name.toLowerCase().includes(searchValue.toLowerCase()))
     .map((obj) => {
       return <PizzaBlock key={obj.id} {...obj} />;
     });
@@ -50,9 +56,9 @@ const Home = () => {
       <div className="content__top">
         <Categories
           value={categoryId}
-          onChangeCategory={(id) => setCategoryId(id)}
+          onChangeCategory={(id) => onChangeCategory(id)}
         />
-        <Sort value={sortType} onChangeSort={(id) => setSortType(id)} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
