@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCategoryId, setSortType } from "../redux/slices/filterSlice";
+import { setSortType } from "../redux/slices/filterSlice";
 
 const Sort = () => {
   const dispatch = useDispatch();
