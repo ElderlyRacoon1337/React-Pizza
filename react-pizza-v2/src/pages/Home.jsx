@@ -7,18 +7,19 @@ import Pagination from '../components/Pagination';
 import { useContext } from 'react';
 import { SearchContext } from '../App';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import {
+  selectFilter,
+  setCategoryId,
+  setCurrentPage,
+} from '../redux/slices/filterSlice';
+import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 import axios from 'axios';
 
 const Home = () => {
-  const { categoryId, sort, currentPage } = useSelector(
-    (state) => state.filter
-  );
+  const { categoryId, sort, currentPage, searchValue } =
+    useSelector(selectFilter);
 
-  const { items, status } = useSelector((state) => state.pizza);
-
-  const { searchValue } = useContext(SearchContext);
+  const { items, status } = useSelector(selectPizzaData);
 
   const dispatch = useDispatch();
 
@@ -45,7 +46,7 @@ const Home = () => {
     //     setIsLoading(false);
     //   }).catch(err=>setIsLoading(false))
 
-    dispatch(fetchPizzas(sortBy, order, category, search, currentPage));
+    dispatch(fetchPizzas({ currentPage, sortBy, order, category, search }));
     window.scrollTo(0, 0);
   };
 
