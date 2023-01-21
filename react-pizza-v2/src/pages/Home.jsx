@@ -1,14 +1,14 @@
-import Categories from "../components/Categories";
-import PizzaBlock from "../components/PizzaBlock";
-import Sort from "../components/Sort";
-import { useEffect, useState } from "react";
-import { Skeleton } from "../components/PizzaBlock/Skeleton";
-import Pagination from "../components/Pagination";
-import { useContext } from "react";
-import { SearchContext } from "../App";
-import { useSelector, useDispatch } from "react-redux";
-import { setCategoryId, setCurrentPage } from "../redux/slices/filterSlice";
-import axios from "axios";
+import Categories from '../components/Categories';
+import PizzaBlock from '../components/PizzaBlock';
+import Sort from '../components/Sort';
+import { useEffect, useState } from 'react';
+import { Skeleton } from '../components/PizzaBlock/Skeleton';
+import Pagination from '../components/Pagination';
+import { useContext } from 'react';
+import { SearchContext } from '../App';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
+import axios from 'axios';
 
 const Home = () => {
   const { categoryId, sort, currentPage } = useSelector(
@@ -32,10 +32,10 @@ const Home = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    const sortBy = sort.sortProperty.replace("-", "");
-    const order = sort.sortProperty.includes("-") ? "asc" : "desc";
-    const category = categoryId > 0 ? `category=${categoryId}` : "";
-    const search = searchValue ? `&search=${searchValue}` : "";
+    const sortBy = sort.sortProperty.replace('-', '');
+    const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
+    const category = categoryId > 0 ? `category=${categoryId}` : '';
+    const search = searchValue ? `&search=${searchValue}` : '';
 
     axios
       .get(

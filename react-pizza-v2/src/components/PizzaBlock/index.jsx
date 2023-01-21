@@ -1,15 +1,30 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem } from '../../redux/slices/cartSlice';
 
-const PizzaBlock = ({
-  name = "undef",
-  price = "undef",
-  imageUrl,
-  sizes,
-  types,
-}) => {
-  const typeNames = ["тонкое", "традиционное"];
+const typeNames = ['тонкое', 'традиционное'];
+
+const PizzaBlock = ({ id, name, price, imageUrl, sizes, types, rating }) => {
+  const dispatch = useDispatch();
+  const cartItem = useSelector((state) =>
+    state.cart.items.find((obj) => obj.id == id)
+  );
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(0);
+
+  const addedCount = cartItem ? cartItem.count : 0;
+
+  const onClickAdd = () => {
+    const item = {
+      id,
+      name,
+      price,
+      imageUrl,
+      type: typeNames[activeType],
+      size: sizes[activeSize],
+    };
+    dispatch(addItem(item));
+  };
 
   return (
     <div className="pizza-block-wrapper">
@@ -23,7 +38,7 @@ const PizzaBlock = ({
                 <li
                   key={typeId}
                   onClick={() => setActiveType(typeId)}
-                  className={activeType == typeId ? "active" : ""}
+                  className={activeType == typeId ? 'active' : ''}
                 >
                   {typeNames[typeId]}
                 </li>
@@ -36,7 +51,7 @@ const PizzaBlock = ({
                 <li
                   key={size}
                   onClick={() => setActiveSize(i)}
-                  className={activeSize == i ? "active" : ""}
+                  className={activeSize == i ? 'active' : ''}
                 >
                   {size} см.
                 </li>
@@ -46,7 +61,10 @@ const PizzaBlock = ({
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
-          <button className="button button--outline button--add">
+          <button
+            onClick={onClickAdd}
+            className="button button--outline button--add"
+          >
             <svg
               width="12"
               height="12"
@@ -60,7 +78,7 @@ const PizzaBlock = ({
               />
             </svg>
             <span>Добавить</span>
-            <i>0</i>
+            {addedCount > 0 && <i>{addedCount}</i>}
           </button>
         </div>
       </div>

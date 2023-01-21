@@ -1,15 +1,15 @@
-import Header from "./components/Header";
-import Home from "./pages/Home";
-import "./scss/app.scss";
-import NotFound from "./pages/NotFound";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Cart from "./pages/Cart";
-import { createContext, useState } from "react";
+import Header from './components/Header';
+import Home from './pages/Home';
+import './scss/app.scss';
+import NotFound from './pages/NotFound';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Cart from './pages/Cart';
+import { createContext, useState } from 'react';
 
-export const SearchContext = createContext("");
+export const SearchContext = createContext('');
 
 function App() {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   return (
     <BrowserRouter>
