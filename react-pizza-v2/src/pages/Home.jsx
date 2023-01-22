@@ -14,6 +14,7 @@ import {
 } from '../redux/slices/filterSlice';
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   const { categoryId, sort, currentPage, searchValue } =
@@ -61,7 +62,11 @@ const Home = () => {
   const pizzas = items
     // .filter((obj) => obj.name.toLowerCase().includes(searchValue.toLowerCase()))
     .map((obj) => {
-      return <PizzaBlock key={obj.id} {...obj} />;
+      return (
+        <Link key={obj.id} to={`/pizza/${obj.id}`}>
+          <PizzaBlock {...obj} />
+        </Link>
+      );
     });
 
   return (

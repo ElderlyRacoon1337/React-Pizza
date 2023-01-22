@@ -4,7 +4,7 @@ import './scss/app.scss';
 import NotFound from './pages/NotFound';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cart from './pages/Cart';
-import { createContext, useState } from 'react';
+import FullPizza from './pages/FullPizza';
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/pizza/:id" element={<FullPizza />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
