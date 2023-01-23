@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSort, setSortType } from '../redux/slices/filterSlice';
+import { selectSort, setSortType, SortType } from '../redux/slices/filterSlice';
 
 const Sort = () => {
   const dispatch = useDispatch();
@@ -8,14 +8,9 @@ const Sort = () => {
   const sortRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  type SortList = {
-    name: string;
-    sortProperty: string;
-  };
-
   type PopupClick = MouseEvent & { path: Node[] };
 
-  const list: SortList[] = [
+  const list: SortType[] = [
     { name: 'популярности (DESC)', sortProperty: 'rating' },
     { name: 'популярности (ASC)', sortProperty: '-rating' },
     { name: 'цене (DESC)', sortProperty: 'price' },
@@ -24,7 +19,7 @@ const Sort = () => {
     { name: 'алфавиту (ASC)', sortProperty: '-name' },
   ];
 
-  const onClickListItem = (obj: SortList) => {
+  const onClickListItem = (obj: SortType) => {
     dispatch(setSortType(obj));
     setIsOpen(false);
   };

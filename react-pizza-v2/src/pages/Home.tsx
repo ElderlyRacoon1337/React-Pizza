@@ -11,6 +11,7 @@ import {
   setCurrentPage,
 } from '../redux/slices/filterSlice';
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice';
+import { useAppDispatch } from '../redux/store';
 
 const Home: React.FC = () => {
   const { categoryId, sort, currentPage, searchValue } =
@@ -18,7 +19,7 @@ const Home: React.FC = () => {
 
   const { items, status } = useSelector(selectPizzaData);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onChangeCategory = (id: number) => {
     dispatch(setCategoryId(id));
@@ -42,10 +43,8 @@ const Home: React.FC = () => {
     //     setItems(res.data);
     //     setIsLoading(false);
     //   }).catch(err=>setIsLoading(false))
-    dispatch(
-      // @ts-ignore
-      fetchPizzas({ currentPage, sortBy, order, category, search })
-    );
+
+    dispatch(fetchPizzas({ currentPage, sortBy, order, category, search }));
     window.scrollTo(0, 0);
   };
 
